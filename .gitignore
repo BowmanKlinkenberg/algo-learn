@@ -16,3 +16,6 @@
 
 # env
 .envrc
+
+# config
+config.yml
