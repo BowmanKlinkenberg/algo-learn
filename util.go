@@ -11,23 +11,34 @@ import (
 )
 
 type Config struct {
-	Key string `mapstructure:"ALGO_KEY"`
-	Url string `mapstructure:"ALGO_URL"`
+	ApiToken    string `mapstructure:"ALGO_API_TOKEN"`
+	Url         string `mapstructure:"ALGO_URL"`
+	AcctAddress string `mapstructure:"ALGO_ADDRESS"`
+	AcctPriKey  string `mapstructure:"ALGO_PRI_KEY"`
 }
 
 // loadConfig reads configuration from file or environment variables.
 func loadConfig() (config Config, err error) {
 	viper.AutomaticEnv()
-	err = viper.BindEnv("ALGO_KEY")
+	err = viper.BindEnv("ALGO_API_TOKEN")
 	if err != nil {
 		return Config{}, err
 	}
-	viper.SetDefault("ALGO_KEY", "")
+	//viper.SetDefault("ALGO_API_TOKEN", "")
 	err = viper.BindEnv("ALGO_URL")
 	if err != nil {
 		return Config{}, err
 	}
 	viper.SetDefault("ALGO_URL", "https://testnet-algorand.api.purestake.io/ps2/")
+	err = viper.BindEnv("ALGO_PRI_KEY")
+	if err != nil {
+		return Config{}, err
+	}
+	err = viper.BindEnv("ALGO_ADDRESS")
+	if err != nil {
+		return Config{}, err
+	}
+
 	err = viper.UnmarshalExact(&config)
 	if err != nil {
 		log.Fatal("unable to decode into struct, %v", err)
@@ -38,7 +49,7 @@ func loadConfig() (config Config, err error) {
 // newClient creates a new Algod client using standard settings
 func newClient(config Config) (client *algod.Client) {
 
-	commonClient, err := common.MakeClient(config.Url, "X-API-Key", config.Key)
+	commonClient, err := common.MakeClient(config.Url, "X-API-ApiToken", config.ApiToken)
 	if err != nil {
 		fmt.Printf("Issue with creating algod client: %s\n", err)
 		return

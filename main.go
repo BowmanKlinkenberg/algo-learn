@@ -21,4 +21,7 @@ func main() {
 	fmt.Println("Suggested transaction parameters:")
 	fmt.Println(getTxParams(algodClient))
 
+	// creating and printing a new standalone account. leave commented as it will create a new account on every run
+	//newStandaloneAccount()
+
 }
