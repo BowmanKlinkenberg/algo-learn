@@ -27,4 +27,7 @@ func main() {
 	// print account balance
 	acctInfo(algodClient, config)
 
+	// send a test payment to faucet address
+	sendFaucetPayment(100000, algodClient, config)
+
 }

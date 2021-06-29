@@ -2,19 +2,36 @@ package main
 
 import (
 	"context"
+	"crypto/ed25519"
 	"encoding/json"
 	"fmt"
 	"github.com/algorand/go-algorand-sdk/client/v2/algod"
 	"github.com/algorand/go-algorand-sdk/client/v2/common"
+	"github.com/algorand/go-algorand-sdk/mnemonic"
+	"github.com/algorand/go-algorand-sdk/types"
 	"github.com/spf13/viper"
 	"log"
 )
 
 type Config struct {
-	ApiToken    string `mapstructure:"ALGO_API_TOKEN"`
-	Url         string `mapstructure:"ALGO_URL"`
-	AcctAddress string `mapstructure:"ALGO_ADDRESS"`
-	AcctPassphrase  string `mapstructure:"ALGO_PASSPHRASE"`
+	ApiToken       string `mapstructure:"ALGO_API_TOKEN"`
+	Url            string `mapstructure:"ALGO_URL"`
+	AcctAddress    string `mapstructure:"ALGO_ADDRESS"`
+	AcctPassphrase string `mapstructure:"ALGO_PASSPHRASE"`
+}
+
+func (config Config) pubAddress() (address types.Address) {
+	privateKey, _ := mnemonic.ToPrivateKey(config.AcctPassphrase)
+	var myAddress types.Address
+	publicKey := privateKey.Public()
+	cpk := publicKey.(ed25519.PublicKey)
+	copy(myAddress[:], cpk[:])
+	return myAddress
+}
+
+func (config Config) priKey() (priKey ed25519.PrivateKey) {
+	privateKey, _ := mnemonic.ToPrivateKey(config.AcctPassphrase)
+	return privateKey
 }
 
 // loadConfig reads configuration from file or environment variables.
