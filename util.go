@@ -14,7 +14,7 @@ type Config struct {
 	ApiToken    string `mapstructure:"ALGO_API_TOKEN"`
 	Url         string `mapstructure:"ALGO_URL"`
 	AcctAddress string `mapstructure:"ALGO_ADDRESS"`
-	AcctPriKey  string `mapstructure:"ALGO_PRI_KEY"`
+	AcctPassphrase  string `mapstructure:"ALGO_PASSPHRASE"`
 }
 
 // loadConfig reads configuration from file or environment variables.
@@ -30,7 +30,7 @@ func loadConfig() (config Config, err error) {
 		return Config{}, err
 	}
 	viper.SetDefault("ALGO_URL", "https://testnet-algorand.api.purestake.io/ps2/")
-	err = viper.BindEnv("ALGO_PRI_KEY")
+	err = viper.BindEnv("ALGO_PASSPHRASE")
 	if err != nil {
 		return Config{}, err
 	}

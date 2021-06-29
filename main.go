@@ -24,4 +24,7 @@ func main() {
 	// creating and printing a new standalone account. leave commented as it will create a new account on every run
 	//newStandaloneAccount()
 
+	// print account balance
+	acctInfo(algodClient, config)
+
 }
