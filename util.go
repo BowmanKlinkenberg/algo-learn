@@ -49,7 +49,7 @@ func loadConfig() (config Config, err error) {
 // newClient creates a new Algod client using standard settings
 func newClient(config Config) (client *algod.Client) {
 
-	commonClient, err := common.MakeClient(config.Url, "X-API-ApiToken", config.ApiToken)
+	commonClient, err := common.MakeClient(config.Url, "X-API-key", config.ApiToken)
 	if err != nil {
 		fmt.Printf("Issue with creating algod client: %s\n", err)
 		return
