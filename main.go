@@ -30,4 +30,9 @@ func main() {
 	// send a test payment to faucet address
 	sendFaucetPayment(100000, algodClient, config)
 
+	// create a new slothcoin
+	err = newAsset(algodClient, config)
+	if err != nil {
+		log.Fatal("failed to create new asset", err)
+	}
 }

@@ -102,3 +102,15 @@ func getTxParams(client *algod.Client) (s string) {
 	}
 	return string(JSON)
 }
+
+// prettyPrint prints Go structs
+func prettyPrint(data interface{}) {
+	var p []byte
+	//    var err := error
+	p, err := json.MarshalIndent(data, "", "\t")
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	fmt.Printf("%s \n", p)
+}
